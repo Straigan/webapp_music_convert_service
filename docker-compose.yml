@@ -1,0 +1,29 @@
+version: "3.8"
+   
+services:
+    flask_web:
+        container_name: web_music_convert_service
+        build: .
+        command: ./run_web.sh
+        volumes:
+            - .:/usr/src/app
+        ports:
+            - "5000:5000"
+        depends_on:
+            - postgres
+
+    postgres:
+        container_name: db_music_convert_service
+        env_file: ./docker/.env-postgresql
+        image: postgres
+        environment:
+            TZ: 'Asia/Yekaterinburg'
+            PGTZ: 'Asia/Yekaterinburg'
+        ports:
+          - 32700:5432
+        volumes:
+            - pgdata:/var/lib/postgresql/data/
+            - /etc/localtime:/etc/localtime:ro
+
+volumes:
+    pgdata:
