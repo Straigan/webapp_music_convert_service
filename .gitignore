@@ -129,3 +129,5 @@ dmypy.json
 
 .flaskenv
 .env
+webapp/static/music/mp3/*
+webapp/static/music/wav/*
