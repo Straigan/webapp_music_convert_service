@@ -5,6 +5,11 @@ ENV FLASK_RUN_HOST=0.0.0.0
 WORKDIR /usr/src/app
 COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
+RUN apt-get -y update
+RUN apt-get -y upgrade
+
+#For work is pydub
+RUN apt-get install -y ffmpeg
 ENV TZ=Asia/Yekaterinburg
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 EXPOSE 50000

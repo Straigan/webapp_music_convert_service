@@ -9,4 +9,5 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 UPLOAD_FOLDER = 'webapp/static/music/wav'
-ALLOWED_EXTENSIONS = {'wav'}
+DOWNLOAD_FOLDER = 'webapp/static/music/mp3'
+UPLOAD_ALLOWED_EXTENSIONS = {'wav'}
