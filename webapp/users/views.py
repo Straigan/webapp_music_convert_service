@@ -1,4 +1,4 @@
-from flask import Blueprint, request
+from flask import Blueprint, jsonify, request
 from uuid import uuid4
 
 from webapp.db import db
@@ -9,7 +9,8 @@ blueprint = Blueprint('users',  __name__)
 
 @blueprint.route('/api/v1.0/registration', methods=['POST'])
 def registration() -> dict:
-    """Сервис принимает на вход запросы с именем пользователя"""
+    """Регистрация пользователя, с предоставлнием 
+        пользователю его индефикатора и токена"""
 
     user_name = request.json['name']
     check_user_name = User.query.filter(User.name==user_name).first()
@@ -28,8 +29,9 @@ def registration() -> dict:
 
         current_user = User.query.filter(User.name==user_name).first()
 
-        return {
+        resp = jsonify({
             'id': current_user.id,
-            'name': current_user.name,
             'access_token': current_user.access_token,
-            }
+        })
+        resp.status_code = 200
+        return resp
