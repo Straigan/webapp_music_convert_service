@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify, request, send_file
 import os
 from werkzeug.utils import secure_filename
+from uuid import uuid4
 
 from webapp.config import DOWNLOAD_FOLDER, PORT, UPLOAD_FOLDER
 from webapp.db import db
@@ -17,12 +18,8 @@ def upload_record():
     upload_record_id_user = request.form['id_user']
     upload_record_access_token_user = request.form['access_token_user']
     upload_record_file_record = request.files['file_wav']
+    print(upload_record_file_record)
     upload_record_user_upload_record = User.query.filter_by(id=int(upload_record_id_user)).first()
-
-    if 'file' not in request.files:
-        resp = jsonify({'message' : 'No file part in the request'})
-        resp.status_code = 400
-        return resp
     
     if upload_record_file_record.filename == '':
         resp = jsonify({'message' : 'No file selected for uploading'})
@@ -33,7 +30,8 @@ def upload_record():
         filename_extension_wav = secure_filename(upload_record_file_record.filename)
         upload_record_file_record.save(os.path.join(UPLOAD_FOLDER, filename_extension_wav)) 
 
-        filename_extension_mp3 = '.' in filename_extension_wav and filename_extension_wav.rsplit('.', 1)[0].lower() + '.mp3'
+        filename_extension_mp3 = str(uuid4()) + '.mp3'
+        print(filename_extension_mp3)
 
         process_convert_wav_to_mp3(filename_extension_wav, filename_extension_mp3)
         

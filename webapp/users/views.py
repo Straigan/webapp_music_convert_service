@@ -7,7 +7,7 @@ from webapp.users.models import User
 
 blueprint = Blueprint('users',  __name__)
 
-@blueprint.route('/api/v1.0/registration', methods=['POST'])
+@blueprint.route('/users/registration', methods=['POST'])
 def registration() -> dict:
     """Регистрация пользователя, с предоставлнием 
         пользователю его индефикатора и токена"""
